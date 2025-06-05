@@ -3,7 +3,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
-        maven(url = "https://maven.aliyun.com/repository/public")
+//        maven(url = "https://maven.aliyun.com/repository/public")
         maven(url = "https://repo.huaweicloud.com/repository/maven/")
         google {
             mavenContent {
@@ -19,7 +19,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        maven(url = "https://maven.aliyun.com/repository/public")
+//        maven(url = "https://maven.aliyun.com/repository/public")
         maven(url = "https://repo.huaweicloud.com/repository/maven/")
         google {
             mavenContent {
@@ -29,6 +29,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        mavenLocal()
     }
 }
 

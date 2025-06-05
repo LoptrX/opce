@@ -1,6 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
@@ -36,7 +33,6 @@ kotlin {
     }
 
     sourceSets {
-
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -47,25 +43,29 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-//            implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.datetime)
             // Ktor 核心库
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.plugin.logging)
+            implementation(libs.ktor.plugin.content.negotiation)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.serialization.json)
-
+            // decompose
+            implementation(libs.decompose.decompose)
+            implementation(libs.decompose.extensionsComposeJetbrains)
+            implementation(libs.essenty.lifecycle)
+            // coil
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network)
             // sqlite
-            implementation(libs.runtime)
+            implementation(libs.sqldelight.runtime)
             // 根据平台添加驱动
             implementation(libs.coroutines.extensions) // 可选协程支持
         }
@@ -113,6 +113,11 @@ android {
 
 dependencies {
     implementation(libs.androidx.room.common)
+    implementation(libs.androidx.material3.android)
+//    implementation(libs.androidx.lifecycle.viewmodel.android)
+//    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(compose.uiTooling)
 }
 

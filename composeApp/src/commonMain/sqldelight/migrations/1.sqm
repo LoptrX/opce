@@ -1,0 +1,15 @@
+CREATE TABLE ServerApiConfigNew(
+id integer PRIMARY KEY AUTOINCREMENT,
+serverUrl text NOT NULL UNIQUE,
+apiKey text NOT NULL,
+time INTEGER NOT NULL DEFAULT 0,
+alias text NOT NULL,
+priority integer DEFAULT 0
+);
+
+INSERT INTO ServerApiConfigNew(id, serverUrl, apiKey, time, alias, priority)
+SELECT id, serverUrl,apiKey,timestamp, alias,priority FROM ServerApiConfig;
+
+DROP TABLE ServerApiConfig;
+
+ALTER TABLE ServerApiConfigNew RENAME TO ServerApiConfig;

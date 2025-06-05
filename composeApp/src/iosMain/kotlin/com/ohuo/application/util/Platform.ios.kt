@@ -1,4 +1,4 @@
-package com.ohuo.application
+package com.ohuo.application.util
 
 import platform.UIKit.UIDevice
 

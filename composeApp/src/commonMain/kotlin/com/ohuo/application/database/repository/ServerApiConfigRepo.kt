@@ -2,24 +2,41 @@ package com.ohuo.application.database.repository
 
 import com.ohuo.application.database.Db
 import com.ohuo.application.database.model.ServerApiConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
-fun findById(id: Long): ServerApiConfig? {
-    return Db.instance.serverApiConfigQueries.selectOne(id).executeAsOneOrNull()
+private val queries = Db.instance.serverApiConfigQueries
+suspend fun findById(id: Long): ServerApiConfig? {
+    return withContext(Dispatchers.IO) { queries.selectOne(id).executeAsOneOrNull() }
 }
 
-fun getPriority(): ServerApiConfig? {
-    return Db.instance.serverApiConfigQueries.selectPriority().executeAsOneOrNull()
+suspend fun getPriority(): ServerApiConfig? {
+    return withContext(Dispatchers.IO) { queries.selectPriority().executeAsOneOrNull() }
 }
 
-fun save(serverApiConfig: ServerApiConfig): ServerApiConfig {
-    Db.instance.serverApiConfigQueries.save(
-        serverApiConfig.serverUrl,
-        serverApiConfig.apiKey,
-        serverApiConfig.timestamp,
-        serverApiConfig.alias,
-        serverApiConfig.priority
-    )
-    val id = Db.instance.serverApiConfigQueries.selectLastInsertRowId().executeAsOne()
-    return serverApiConfig.copy(id = id)
+suspend fun save(entity: ServerApiConfig): ServerApiConfig {
+    return withContext(Dispatchers.IO) {
+        if (entity.id == -1L) {
+            queries.save(
+                entity.serverUrl,
+                entity.apiKey,
+                entity.time,
+                entity.alias,
+                entity.priority
+            )
+            entity.copy(id = queries.selectLastInsertRowId().executeAsOne())
+        } else {
+            queries.update(
+                entity.id,
+                entity.serverUrl,
+                entity.apiKey,
+                entity.time,
+                entity.alias,
+                entity.priority
+            )
+            entity
+        }
+    }
 }
 

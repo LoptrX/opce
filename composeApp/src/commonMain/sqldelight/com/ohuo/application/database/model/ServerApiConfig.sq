@@ -2,22 +2,22 @@ CREATE TABLE ServerApiConfig(
 id integer PRIMARY KEY AUTOINCREMENT,
 serverUrl text NOT NULL UNIQUE,
 apiKey text NOT NULL,
-timestamp INTEGER DEFAULT 0,
+time INTEGER NOT NULL DEFAULT 0,
 alias text NOT NULL,
 priority integer DEFAULT 0
 );
 
 save:
-INSERT OR REPLACE INTO
-ServerApiConfig(serverUrl, apiKey,timestamp, alias,priority)
-VALUES(?,?,?,?,?);
-
+INSERT INTO ServerApiConfig(serverUrl, apiKey,time, alias,priority) VALUES(?,?,?,?,?);
+update:
+UPDATE ServerApiConfig SET id = ?, serverUrl = ?, apiKey = ?, time = ?, alias = ?, priority = ?;
 selectAll:
 SELECT * FROM ServerApiConfig;
 selectOne:
 SELECT * FROM ServerApiConfig WHERE id = ?;
 selectPriority:
 SELECT * FROM ServerApiConfig WHERE priority = 1 ORDER BY id DESC LIMIT 1;
-
+selectOneByServerUrl:
+SELECT * FROM ServerApiConfig WHERE serverUrl = ?;
 selectLastInsertRowId:
 SELECT last_insert_rowid() AS id FROM ServerApiConfig;
